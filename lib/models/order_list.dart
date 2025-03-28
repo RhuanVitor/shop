@@ -16,7 +16,7 @@ class OrderList with ChangeNotifier{
   void addOrder(Cart cart){
     _items.insert(0, 
     Order(
-      id: Random().nextDouble().toString(), 
+      id: Random().nextInt(100000000).toString().padLeft(9, '0'), 
       total: cart.totalAmount, 
       products: cart.items.values.toList(), 
       date: DateTime.now()
