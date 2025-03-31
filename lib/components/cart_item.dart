@@ -44,6 +44,8 @@ class CardItemWidget extends StatelessWidget{
                   children: [
                     Text(
                       softWrap: true,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       cartItem.name,
                       style: TextStyle(
                         fontSize: 13

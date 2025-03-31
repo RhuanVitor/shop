@@ -27,7 +27,15 @@ class AppDrawer extends StatelessWidget{
               onTap: (){
                 Navigator.of(context).pushNamed(AppRoutes.ORDERS);
               },
-            )
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.favorite),
+              title: Text('Lista de desejos'),
+              onTap: (){
+                Navigator.of(context).pushNamed(AppRoutes.WISH_LIST);
+              },
+            ),            
           ],
         ),
       );

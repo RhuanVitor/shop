@@ -99,8 +99,14 @@ class _OrderWidgetState extends State<OrderWidget> {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                product.name
+                              Container(
+                                width: 220,
+                                child: Text(
+                                  softWrap: true,
+                                  overflow: TextOverflow.ellipsis,
+                                  product.name,
+                                  
+                                ),
                               ),
                               Text(
                                 '${product.quantity}x R\$ ${product.price}'),

@@ -47,8 +47,12 @@ class _ProductItemState extends State<ProductItem> {
                 product.imageUrl,
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2,),
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2,),
                 child: Text(
+                  softWrap: true,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   product.title,
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
@@ -56,7 +60,7 @@ class _ProductItemState extends State<ProductItem> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 child: Text(
                   textAlign: TextAlign.start,
                   'R\$ ${product.price.toString()}',

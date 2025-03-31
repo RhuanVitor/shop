@@ -33,36 +33,10 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
           style: TextStyle(
             fontWeight: FontWeight.w700,
             color: Colors.white,
-          ),
+            fontSize: 20,
+            ),
           ),
         actions: [
-          PopupMenuButton(
-            icon: Icon(
-              Icons.filter_list_alt,
-              color: Colors.white,
-            ),
-            itemBuilder: (_) => [
-               PopupMenuItem(
-                value: FilterOptions.favorite,
-                child: Text("Somente favoritos"),
-              ),
-              PopupMenuItem(
-                value: FilterOptions.all,
-                child: Text("Todos"),
-              ),
-            ],
-            onSelected: (FilterOptions selectedOption){
-              if(selectedOption == FilterOptions.favorite){
-                setState(() {
-                  _showFavoriteOnly = true;
-                });
-              } else if(selectedOption == FilterOptions.all){
-                  setState(() {
-                    _showFavoriteOnly = false;
-                });
-              }
-            },
-          ), 
           Consumer<Cart>(
             builder: (ctx, cart, child) => Badgee(
               value: cart.itemsCount.toString(),

@@ -30,6 +30,7 @@ class _ProductsDetailPageState extends State<ProductsDetailPage> {
           style: TextStyle(
             fontWeight: FontWeight.w700,
             color: Colors.white,
+            fontSize: 20,
           ),
         ),
         actions: [
@@ -59,7 +60,14 @@ class _ProductsDetailPageState extends State<ProductsDetailPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                IconButton(onPressed: (){}, icon: Icon(Icons.favorite_border))
+                IconButton(
+                  onPressed: (){
+                    setState(() {
+                      product.isFavorite = !product.isFavorite;
+                    });
+                  }, 
+                  icon: product.isFavorite ? Icon(Icons.favorite, color: Colors.redAccent,) : Icon(Icons.favorite_border)
+                )
               ],
             ),
             Container(
@@ -69,7 +77,7 @@ class _ProductsDetailPageState extends State<ProductsDetailPage> {
             ),
             SizedBox(height: 10,),
             Container(
-              padding: EdgeInsets.only(left: 15),
+              padding: EdgeInsets.only(left: 15, right: 15),
               child: Text(
                 product.title,
                 softWrap: true,
@@ -148,7 +156,7 @@ class _ProductsDetailPageState extends State<ProductsDetailPage> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: Text(
-                "Descrição:",
+                "Detalhes do produto: ",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700
@@ -165,6 +173,9 @@ class _ProductsDetailPageState extends State<ProductsDetailPage> {
                 product.description
               ),
             ),
+            SizedBox(
+              height: 40,
+            )
           ],
         ),
       ),

@@ -7,11 +7,11 @@ import 'package:shop/models/cart.dart';
 import 'package:shop/pages/cart_page.dart';
 import 'package:shop/pages/orders_page.dart';
 import 'package:shop/pages/products_detail_page.dart';
+import 'package:shop/pages/wish_list.dart';
 
 import 'package:shop/utils/app_routes.dart';
 
 import 'pages/products_overview_page.dart';
-
 
 void main() => runApp(MyAppHomePage());
 
@@ -35,7 +35,8 @@ class MyAppHomePage extends StatelessWidget{
           AppRoutes.HOME: (ctx) => ProductsOverviewPage(),
           AppRoutes.PRODUCT_DETAIL: (ctx) => ProductsDetailPage(),
           AppRoutes.CART_PAGE: (ctx) => CartPage(),
-          AppRoutes.ORDERS: (ctx) => OrdersPage()
+          AppRoutes.ORDERS: (ctx) => OrdersPage(),
+          AppRoutes.WISH_LIST: (ctx) => WishList(),
         },
         debugShowCheckedModeBanner: false,
       ),
