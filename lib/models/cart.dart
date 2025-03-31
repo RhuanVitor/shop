@@ -10,6 +10,31 @@ class Cart with ChangeNotifier{
     return {..._items};
   }
 
+  void addOne(String id){
+    _items.update(id, (existingItem) => CartItem(
+        id: existingItem.id, 
+        productId: existingItem.productId, 
+        name: existingItem.name, 
+        quantity: existingItem.quantity + 1, 
+        price: existingItem.price,
+        image: existingItem.image
+      ));
+    notifyListeners();
+  }
+
+  void removeOne(String id){
+    _items.update(id, (existingItem) =>
+     CartItem(
+        id: existingItem.id, 
+        productId: existingItem.productId, 
+        name: existingItem.name, 
+        quantity: existingItem.quantity - 1, 
+        price: existingItem.price,
+        image: existingItem.image
+    ));
+    notifyListeners();
+  }
+
   void addItem(Product product){
     if( _items.containsKey(product.id) ){
       _items.update(product.id, (existingItem) => CartItem(

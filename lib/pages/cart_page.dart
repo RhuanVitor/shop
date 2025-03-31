@@ -25,30 +25,53 @@ class CartPage extends StatelessWidget{
       ),
       body: Column(
         children: [
-          Card(
-            child: Row(
-              children: [
-                Text(
-                  'Total',
-                  style: TextStyle(
-                    fontSize: 20
-                  ),
-                ),
-                Chip(
-                  label: Text('R\$ ${double.parse(cart.totalAmount.toString()).toStringAsFixed(2)}'),
-
-                ),
-                TextButton(onPressed: (){
-                  Provider.of<OrderList>(context, listen: false).addOrder(cart);
-                  cart.clear();
-                }, child: Text("Finalizar Pedido"),   )
-              ],
-            ),
-          ),
-          Expanded(child: ListView.builder(
+          SizedBox(
+          width: double.infinity,
+          height: items.length * 90,
+          child: ListView.builder(
             itemCount: items.length,
             itemBuilder: (context, index) => CardItemWidget(cartItem: items[index])),
-          )
+          ),
+        if(cart.itemsCount > 0)
+        Card(
+            child: Container(
+              padding: EdgeInsets.only(top: 10, bottom: 10),
+              child: Column(
+                children: [
+                  Row(
+                    spacing: 160,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Total: ',
+                        style: TextStyle(
+                          fontSize: 18
+                        ),
+                      ),
+                      Text(
+                        'R\$ ${double.parse(cart.totalAmount.toString()).toStringAsFixed(2)}',
+                        style: TextStyle(
+                          fontSize: 18
+                        ),
+                      ),
+                    ],
+                  ),
+                  TextButton(
+                    onPressed: (){
+                    Provider.of<OrderList>(context, listen: false).addOrder(cart);
+                    cart.clear();
+                  }, child: Text("Finalizar Pedido"),   )
+                ],
+              ),
+            ),
+          ),
+          if(cart.totalAmount == 0)
+          Expanded(child: 
+            Center(child: 
+            Text(
+              "Você não adicionou nenhum item ao carrinho!",
+            )
+          ))
         ],
       ),
     );

@@ -1,61 +1,170 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import 'package:shop/models/cart.dart';
+import 'package:shop/utils/app_routes.dart';
+import '../components/badgee.dart';
 import '../models/product.dart';
 
-class ProductsDetailPage extends StatelessWidget{
+class ProductsDetailPage extends StatefulWidget{
+
+  @override
+  State<ProductsDetailPage> createState() => _ProductsDetailPageState();
+}
+
+class _ProductsDetailPageState extends State<ProductsDetailPage> {
+  bool _addedToCart = false;
 
   @override
   Widget build(BuildContext context){
+    final Cart cart = Provider.of<Cart>(
+      context,
+      listen: false
+    );
 
     final Product product = ModalRoute.of(context)!.settings.arguments as Product;
 
     return Scaffold(
       appBar: AppBar(
-        title: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            border: BorderDirectional(
-              bottom: BorderSide(
-                color: Colors.black12,
-                width: 1.0
-              )
-            )
+        title: Text(
+          "Feira Da Madrugada SP",
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
           ),
-          child: Text(
-            product.title,
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.normal
-            ),
-            )
         ),
+        actions: [
+          Consumer<Cart>(
+            builder: (ctx, cart, child) => Badgee(
+              value: cart.itemsCount.toString(),
+              child: IconButton(
+                onPressed: (){
+                  Navigator.of(context).pushNamed(
+                    AppRoutes.CART_PAGE
+                  );
+                }, 
+                icon: Icon(
+                  Icons.shopping_cart,
+                  color: Colors.white,
+                )
+              ),
+            ),
+          )
+        ],
         backgroundColor: Colors.deepPurple
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(onPressed: (){}, icon: Icon(Icons.favorite_border))
+              ],
+            ),
             Container(
               height: 300,
               width: double.infinity,
               child: Image.network(product.imageUrl, fit: BoxFit.cover,),
             ),
             SizedBox(height: 10,),
-            Text(
-              'R\$ ${product.price}',
-              style: TextStyle(
-                color: Colors.grey
+            Container(
+              padding: EdgeInsets.only(left: 15),
+              child: Text(
+                product.title,
+                softWrap: true,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700
+                ),
               ),
             ),
+            SizedBox(height:5),
+            Container(
+              padding: EdgeInsets.only(left: 15),
+              child: Text(
+                'R\$ ${product.price}',
+                style: TextStyle(
+                  color: Colors.deepPurple,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              alignment: Alignment.center,
+              child: TextButton(
+                onPressed: () {
+                  cart.addItem(product);
+                  setState(() {
+                    _addedToCart = true;
+                  });
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 45, 172, 49),
+                  minimumSize: Size(double.infinity, 45),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                    
+                  )
+                ),
+                child: Text(
+                  "Comprar agora",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+
+            if(_addedToCart == true)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  height: 35,
+                  width: 300,
+                  child: Text(
+                    "Item adicionado ao carrinho!",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: Colors.blueGrey
+                    ),
+                  )
+                ),
+              ],
+            ),
+
             SizedBox(
               height: 10,
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Text(
+                "Descrição:",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 15),
               width: double.infinity,
               child: Text(
                 product.description
               ),
-            )
+            ),
           ],
         ),
       ),

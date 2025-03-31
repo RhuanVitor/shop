@@ -12,7 +12,6 @@ class ProductGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProductList>(context);
-    
     final List<Product> loadedProducts = showFavoriteonly ? provider.favorite_items : provider.items;
 
     return GridView.builder(
@@ -23,8 +22,8 @@ class ProductGrid extends StatelessWidget {
         ),
       itemCount: loadedProducts.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 1,
-        childAspectRatio: 3 / 2,
+        crossAxisCount: 2,
+        childAspectRatio: 6 / 10.5,
         crossAxisSpacing: 10,
         mainAxisSpacing: 30
       )
