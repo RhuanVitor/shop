@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shop/components/order.dart';
-import '../models/order_list.dart';
+import 'package:shop/models/order_list.dart';
 
 import 'package:provider/provider.dart';
 
-import '../components/app_drawer.dart';
+import 'package:shop/components/app_drawer.dart';
 
 class OrdersPage extends StatelessWidget{
   const OrdersPage({Key ? key}) : super(key:key);

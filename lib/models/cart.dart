@@ -23,15 +23,19 @@ class Cart with ChangeNotifier{
   }
 
   void removeOne(String id){
-    _items.update(id, (existingItem) =>
-     CartItem(
-        id: existingItem.id, 
-        productId: existingItem.productId, 
-        name: existingItem.name, 
-        quantity: existingItem.quantity - 1, 
-        price: existingItem.price,
-        image: existingItem.image
-    ));
+    if(_items[id]?.quantity == 1){
+      removeItem(id);
+    } else{
+      _items.update(id, (existingItem) =>
+      CartItem(
+          id: existingItem.id, 
+          productId: existingItem.productId, 
+          name: existingItem.name, 
+          quantity: existingItem.quantity - 1, 
+          price: existingItem.price,
+          image: existingItem.image
+      ));
+    }
     notifyListeners();
   }
 
