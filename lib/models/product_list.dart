@@ -1,10 +1,14 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:shop/data/dummy_data.dart';
 import 'package:shop/models/product.dart';
 
+import 'package:http/http.dart' as http;
+
 class ProductList with ChangeNotifier {
+  final String _baseUrl = 'https://shop-fb5ea-default-rtdb.firebaseio.com';
   final List<Product> _items = dummyProducts;
 
   List<Product> get items => [..._items];
@@ -12,9 +16,28 @@ class ProductList with ChangeNotifier {
 
   int get itemsCount => _items.length;
 
-  void addProduct(Product product){
-    _items.add(product);
-    notifyListeners();
+  Future<void> addProduct(Product product){
+    final future = http.post(
+      Uri.parse('$_baseUrl/products.json'),
+      body: jsonEncode({
+        "name": product.title,
+        "price": product.price,
+        "description": product.description,
+        "imageUrl": product.imageUrl,
+      })
+    );
+
+    return future.then<void>((response){
+      final String id = jsonDecode(response.body)['name'];
+      _items.add(Product(
+        id: id, 
+        title: product.title, 
+        description: product.description, 
+        price: product.price, 
+        imageUrl: product.imageUrl
+      ));
+      notifyListeners();  
+    });
   }
 
   void removeProduct(Product product){
@@ -26,16 +49,18 @@ class ProductList with ChangeNotifier {
     }
   }
 
-  void updateProduct(Product product){
+  Future<void> updateProduct(Product product){
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if(index >= 0){
       _items[index] = product;
       notifyListeners();
     }
+
+    return Future.value();
   }
 
-  void saveProduct(Map<String, Object> data) {
+  Future<void> saveProduct(Map<String, Object> data) {
     bool hasId = data['id'] != null; 
 
     final product = Product(
@@ -47,9 +72,9 @@ class ProductList with ChangeNotifier {
       );
 
     if(hasId){
-      updateProduct(product);
+      return updateProduct(product);
     } else{
-      addProduct(product);
+      return addProduct(product);
     }
   }
 }

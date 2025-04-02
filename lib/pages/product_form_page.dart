@@ -20,6 +20,8 @@ class _ProductFormPageState extends State<ProductFormPage> {
   final _formKey = GlobalKey<FormState>();
   final _formData = <String, Object>{};
 
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -68,9 +70,17 @@ class _ProductFormPageState extends State<ProductFormPage> {
     }
 
     _formKey.currentState?.save();
+
+    setState(() {
+      _isLoading = true;
+    });
     
-    Provider.of<ProductList>(context, listen: false).saveProduct(_formData);
-    Navigator.of(context).pop();
+    Provider.of<ProductList>(
+      context, listen: false
+      ).saveProduct(_formData).then((value){
+        _isLoading = false;
+        Navigator.of(context).pop();
+    });
   }
  
   @override
@@ -85,7 +95,10 @@ class _ProductFormPageState extends State<ProductFormPage> {
           )
         ],
       ),
-      body: Padding(
+      body: _isLoading ? Center(
+        child: CircularProgressIndicator(),
+      )
+      : Padding(
         padding: const EdgeInsets.all(10.0),
         child: Form(
           key: _formKey,
@@ -121,7 +134,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                     ),
                     child: _imageUrlController.text.isEmpty ? Center(
                       child: Icon(
-                        Icons.image_not_supported,
+                        Icons.image,
                         color: Colors.grey,
                         size: 30,
                       )
@@ -129,7 +142,32 @@ class _ProductFormPageState extends State<ProductFormPage> {
                     :
                     FittedBox(
                       fit: BoxFit.cover,
-                      child: Image.network(_imageUrlController.text),
+                      child: Image.network(
+                        _imageUrlController.text,
+                        errorBuilder:(context, error, stackTrace) => Container(
+                          height: 100,
+                          width: 100,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(
+                                Icons.image_not_supported,
+                                color: Colors.red,
+                                size: 40,
+                              ),
+                              Text(
+                                "Imagem invalida",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     )
                   )
                 ],
