@@ -62,7 +62,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
     setState(() {});
   }
 
-  void _subtmitForm(){
+  Future<void> _subtmitForm() async{
     final isValid = _formKey.currentState?.validate() ?? false;
 
     if(!isValid){
@@ -74,13 +74,29 @@ class _ProductFormPageState extends State<ProductFormPage> {
     setState(() {
       _isLoading = true;
     });
-    
-    Provider.of<ProductList>(
+    try{
+      await Provider.of<ProductList>(
       context, listen: false
-      ).saveProduct(_formData).then((value){
-        _isLoading = false;
-        Navigator.of(context).pop();
-    });
+      ).saveProduct(_formData);
+    } catch(error){
+      await showDialog<void>(
+        context: context, 
+        builder: (ctx) => AlertDialog(
+          title: Text("Ocorreu um erro!"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text("Ok")
+            )
+          ],
+        )
+      );
+    } finally{
+      setState(() {
+        _isLoading = true;
+      });
+      Navigator.of(context).pop();
+    }
   }
  
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop/models/product_list.dart';
 import 'package:shop/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
@@ -21,10 +22,20 @@ class ProductsOverviewPage extends StatefulWidget{
 }
 
 class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
-  bool _showFavoriteOnly = false;
+  bool _isLoading = true;
+
+  @override
+  void initState(){
+    super.initState();
+    Provider.of<ProductList>(context, listen: false).loadProducts().then((value){
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context){
-    
 
     return Scaffold(
       appBar: AppBar(
@@ -56,7 +67,9 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
         ],
         backgroundColor: Colors.deepPurple,
       ),
-      body: ProductGrid(_showFavoriteOnly),
+      body: _isLoading ? Center(
+        child: CircularProgressIndicator()
+      ) : ProductGrid(false /* show all products */),
       drawer: AppDrawer(),
     );
   }

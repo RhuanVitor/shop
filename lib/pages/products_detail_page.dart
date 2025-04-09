@@ -63,7 +63,7 @@ class _ProductsDetailPageState extends State<ProductsDetailPage> {
                 IconButton(
                   onPressed: (){
                     setState(() {
-                      product.isFavorite = !product.isFavorite;
+                      product.toggleFavorite();
                     });
                   }, 
                   icon: product.isFavorite ? Icon(Icons.favorite, color: Colors.redAccent,) : Icon(Icons.favorite_border)
