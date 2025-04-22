@@ -97,8 +97,7 @@ class ProductList with ChangeNotifier {
             price: productData['price'],
             imageUrl: productData['imageUrl'],
             isFavorite: productData['isFavorite']
-          )
-        );
+        ));
       });
       notifyListeners();
     }

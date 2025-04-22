@@ -6,14 +6,12 @@ import 'product_grid_item.dart';
 
 class ProductGrid extends StatelessWidget {
   final bool showFavoriteonly;
-
   const ProductGrid(this.showFavoriteonly, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProductList>(context);
     final List<Product> loadedProducts = showFavoriteonly ? provider.favorite_items : provider.items;
-
     return GridView.builder(
       padding: const EdgeInsets.all(20),
       itemBuilder: (ctx, index) => ChangeNotifierProvider.value(

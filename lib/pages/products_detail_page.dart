@@ -13,7 +13,7 @@ class ProductsDetailPage extends StatefulWidget{
 
 class _ProductsDetailPageState extends State<ProductsDetailPage> {
   bool _addedToCart = false;
-
+  
   @override
   Widget build(BuildContext context){
     final Cart cart = Provider.of<Cart>(
