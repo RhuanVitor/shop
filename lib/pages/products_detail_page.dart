@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/models/auth.dart';
 import 'package:shop/models/cart.dart';
 import 'package:shop/utils/app_routes.dart';
 import 'package:shop/components/badgee.dart';
@@ -16,6 +17,10 @@ class _ProductsDetailPageState extends State<ProductsDetailPage> {
   
   @override
   Widget build(BuildContext context){
+    final auth = Provider.of<Auth>(context);
+    final String? auth_token = auth.token;
+    final String? auth_uid = auth.uid;
+
     final Cart cart = Provider.of<Cart>(
       context,
       listen: false
@@ -58,12 +63,12 @@ class _ProductsDetailPageState extends State<ProductsDetailPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end, 
               children: [
                 IconButton(
                   onPressed: (){
                     setState(() {
-                      product.toggleFavorite();
+                      product.toggleFavorite(auth_token, auth_uid);
                     });
                   }, 
                   icon: product.isFavorite ? Icon(Icons.favorite, color: Colors.redAccent,) : Icon(Icons.favorite_border)

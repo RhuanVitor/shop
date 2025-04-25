@@ -8,22 +8,27 @@ import 'package:shop/exceptions/http_exception.dart';
 import 'package:shop/utils/constants.dart';
 
 class ProductList with ChangeNotifier {
-  final List<Product> _items = [];
+  String _token;
+  String _uid;
+  List<Product> _items = [];
 
   List<Product> get items => [..._items];
   List<Product> get favorite_items => _items.where( (product) => product.isFavorite).toList();
 
   int get itemsCount => _items.length;
 
+  ProductList([
+    this._token = '', this._uid = '', this._items = const [],
+  ]);
+
   Future<void> addProduct(Product product) async{
     final response = await http.post(
-      Uri.parse('${Constants.PRODUCT_BASE_URL}.json'),
+      Uri.parse('${Constants.PRODUCT_BASE_URL}.json?auth=$_token'),
       body: jsonEncode({
         "name": product.title,
         "price": product.price,
         "description": product.description,
         "imageUrl": product.imageUrl,
-        "isFavorite": product.isFavorite
       })
     );
     final String id = jsonDecode(response.body)['name'];
@@ -66,13 +71,12 @@ class ProductList with ChangeNotifier {
 
     if(index >= 0){
       await http.patch(
-        Uri.parse('${Constants.PRODUCT_BASE_URL}/${product.id}.json'),
+        Uri.parse('${Constants.PRODUCT_BASE_URL}/${product.id}.json?auth=$_token'),
         body: jsonEncode({
           "name": product.title,
           "price": product.price,
           "description": product.description,
           "imageUrl": product.imageUrl,
-          "isFavorite": product.isFavorite
         })
       );
       _items[index] = product;
@@ -83,12 +87,22 @@ class ProductList with ChangeNotifier {
   
   Future<void> loadProducts() async {
     _items.clear();
-    final response = await http.get(Uri.parse('${Constants.PRODUCT_BASE_URL}.json'));
+    final response = await http.get(Uri.parse('${Constants.PRODUCT_BASE_URL}.json?auth=$_token'));
+
     if(response.body == 'null'){
       return ;
     } else{
+      final favResponse =  await http.get( 
+        Uri.parse('${Constants.USER_FAVORITE_URL}/$_uid.json?auth=$_token'),
+      );
+      
+      Map<String, dynamic> favData = favResponse.body == 'null' ? {} : jsonDecode(favResponse.body);
+      debugPrint('responsee: $favData');
+
       Map<String, dynamic> data = jsonDecode(response.body);
       data.forEach((productId, productData){
+        final isFavorite = favData[productId]?['isFavorite'] ?? false; 
+        debugPrint('responsee: $isFavorite');
         _items.add(
           Product(
             id: productId,
@@ -96,9 +110,10 @@ class ProductList with ChangeNotifier {
             description: productData['description'],
             price: productData['price'],
             imageUrl: productData['imageUrl'],
-            isFavorite: productData['isFavorite']
+            isFavorite: isFavorite
         ));
       });
+      debugPrint("pronto");
       notifyListeners();
     }
   }
