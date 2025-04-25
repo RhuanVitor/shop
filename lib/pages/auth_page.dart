@@ -22,7 +22,7 @@ class AuthPage extends StatelessWidget{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/ss-logo-feira-de-madrugada-min.png', width: 180,),
+            Image.asset('assets/images/ss-logo-feira-de-madrugada-min.png', width: 220,),
             SizedBox(height: 20,),
             AuthForm(),
           ],
