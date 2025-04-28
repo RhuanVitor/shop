@@ -10,7 +10,8 @@ class AuthForm extends StatefulWidget{
   State<AuthForm> createState() => _AuthFormState();
 }
 
-class _AuthFormState extends State<AuthForm> {
+class _AuthFormState extends State<AuthForm> with SingleTickerProviderStateMixin {
+  
   final _formKey = GlobalKey<FormState>();
   
   AuthMode _authMode = AuthMode.Login;
@@ -72,11 +73,56 @@ class _AuthFormState extends State<AuthForm> {
   void _switchAuthMode(){
     setState(() {
       if(_isLogin()){
+          _controller.forward();
           _authMode = AuthMode.Signup;
       } else {
+          _controller.reverse();
         _authMode = AuthMode.Login;
       }
     });
+  }
+
+
+  late AnimationController _controller;
+  late Animation<double> _opacityAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState(){
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 400
+      )
+    );
+
+    _opacityAnimation = Tween(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller, 
+        curve: Curves.linear
+      )
+    );
+
+    _slideAnimation = Tween(
+      begin: Offset(0, -1.5),
+      end: Offset(0, 0),
+    ).animate(
+      CurvedAnimation(
+        parent: _controller, 
+        curve: Curves.linear
+      )
+    );
+    
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    _controller.dispose();
   }
 
   Widget build(BuildContext){
@@ -85,11 +131,13 @@ class _AuthFormState extends State<AuthForm> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10)
       ),
-      child: Container(
-        height: _isLogin() ? 360 : 420,
-        width: deviceSize.width * 0.80,
-        padding: EdgeInsets.all(30),
-        child: Form(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.linear,
+            height: _isLogin() ? 360 : 420,
+            width: deviceSize.width * 0.80,
+            padding: EdgeInsets.all(30),
+            child: Form(
           key: _formKey,
           child: 
           Column(
@@ -139,24 +187,36 @@ class _AuthFormState extends State<AuthForm> {
                 },
               ),
 
-
-              if(_isSignup())
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Confirmar senha',
+              AnimatedContainer(
+                constraints: BoxConstraints(
+                  minHeight: _isLogin() ? 0 : 60,
+                  maxHeight: _isLogin() ? 0 : 120,
                 ),
-                keyboardType: TextInputType.emailAddress,
-                obscureText: true,
-                validator: _isLogin() ? 
-                null : 
-                (_password){
-                  final password = _password ?? '';
-                  if (password != _passwordController.text){
-                    return 'As senhas informadas não conferem';
-                  } else {
-                    return null;
-                  }
-                },
+                duration: Duration(milliseconds: 300),
+                curve: Curves.linear,
+                child: FadeTransition(
+                  opacity: _opacityAnimation,
+                  child: SlideTransition(
+                    position: _slideAnimation,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Confirmar senha',
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      obscureText: true,
+                      validator: _isLogin() ? 
+                      null : 
+                      (_password){
+                        final password = _password ?? '';
+                        if (password != _passwordController.text){
+                          return 'As senhas informadas não conferem';
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
                 height: 20,
@@ -189,7 +249,7 @@ class _AuthFormState extends State<AuthForm> {
             ],
           )
         ),
-      ),
+      )
     );
   }
 }

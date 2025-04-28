@@ -4,11 +4,8 @@ import 'package:shop/components/auth_form.dart';
 import 'package:shop/models/order_list.dart';
 
 class AuthPage extends StatefulWidget{
-  
   @override
   State<AuthPage> createState() => _AuthPageState();
-
-  
 }
 
 class _AuthPageState extends State<AuthPage> {
@@ -35,13 +32,15 @@ class _AuthPageState extends State<AuthPage> {
         ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/ss-logo-feira-de-madrugada-min.png', width: 220,),
-            SizedBox(height: 20,),
-            AuthForm(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset('assets/images/ss-logo-feira-de-madrugada-min.png', width: 220,),
+              SizedBox(height: 20,),
+              AuthForm(),
+            ],
+          ),
         ),
       ),
     );

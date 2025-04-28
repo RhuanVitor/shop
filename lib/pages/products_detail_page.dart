@@ -78,7 +78,7 @@ class _ProductsDetailPageState extends State<ProductsDetailPage> {
             Container(
               height: 300,
               width: double.infinity,
-              child: Image.network(product.imageUrl, fit: BoxFit.cover,),
+              child: Hero(tag: product.id,child: Image.network(product.imageUrl, fit: BoxFit.cover,)),
             ),
             SizedBox(height: 10,),
             Container(

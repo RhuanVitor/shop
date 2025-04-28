@@ -43,8 +43,11 @@ class _ProductItemState extends State<ProductGridItem> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.network(
-                product.imageUrl,
+              Hero(
+                tag: product.id,
+                child: Image.network(
+                  product.imageUrl,
+                ),
               ),
               Container(
                 width: double.infinity,
