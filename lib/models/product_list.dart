@@ -97,12 +97,10 @@ class ProductList with ChangeNotifier {
       );
       
       Map<String, dynamic> favData = favResponse.body == 'null' ? {} : jsonDecode(favResponse.body);
-      debugPrint('responsee: $favData');
 
       Map<String, dynamic> data = jsonDecode(response.body);
       data.forEach((productId, productData){
         final isFavorite = favData[productId]?['isFavorite'] ?? false; 
-        debugPrint('responsee: $isFavorite');
         _items.add(
           Product(
             id: productId,
@@ -113,7 +111,6 @@ class ProductList with ChangeNotifier {
             isFavorite: isFavorite
         ));
       });
-      debugPrint("pronto");
       notifyListeners();
     }
   }
