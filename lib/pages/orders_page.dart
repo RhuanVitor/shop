@@ -35,7 +35,6 @@ class _OrdersPageState extends State<OrdersPage> {
   @override
   Widget build(BuildContext context){
     final OrderList orders = Provider.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(

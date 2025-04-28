@@ -23,21 +23,28 @@ class OrderList with ChangeNotifier{
   OrderList([this._token = '', this._uid = '', this._items = const []]);
 
   Future<void> loadOrders() async {
-     List<Order> items = [];
+    debugPrint("Carregando...........");
+    _items = [];
 
     final response = await http.get(
       Uri.parse('${Constants.ORDER_BASE_URL}/$_uid.json?auth=$_token')
     );
 
+    debugPrint('UID: $_uid');
+
     if(response.body == 'null') return;
 
     Map<String, dynamic> data = jsonDecode(response.body);
+
+    debugPrint('DADOS: $data');
     
     data.forEach((orderId, orderData){
-      items.add(
+      debugPrint('OrderId: $orderId');
+      debugPrint('orderData: $orderData');
+      _items.add(
         Order(
-          id: orderData['id'], 
-          total: orderData['total'], 
+          id: orderData['id'],
+          total: orderData['total'],
           products: (orderData['products'] as List<dynamic>).map((item){
             return CartItem(
               id: item['id'],
@@ -52,6 +59,7 @@ class OrderList with ChangeNotifier{
         )
       );
     }); 
+    debugPrint('lengh: ${items.length}');
     _items = items.reversed.toList();
     notifyListeners();
   }
@@ -90,4 +98,9 @@ class OrderList with ChangeNotifier{
     );
     notifyListeners();
   }
+
+  void cleanOrders(){
+    _items = [];
+  }
+
 }

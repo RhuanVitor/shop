@@ -42,7 +42,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                         ),
                       ),
                       Text(
-                        DateFormat('dd/mm/yyyy hh:mm').format(widget.order.date),
+                        DateFormat('dd/MM/yyyy hh:mm').format(widget.order.date),
                         style: TextStyle(
                         color: const Color.fromARGB(255, 90, 90, 90),
                         fontSize: 13

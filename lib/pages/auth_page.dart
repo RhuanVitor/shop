@@ -1,8 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop/components/auth_form.dart';
+import 'package:shop/models/order_list.dart';
 
-class AuthPage extends StatelessWidget{
+class AuthPage extends StatefulWidget{
   
+  @override
+  State<AuthPage> createState() => _AuthPageState();
+
+  
+}
+
+class _AuthPageState extends State<AuthPage> {
+
+  // @override
+  // void initState(){
+  //   super.initState();
+  //   Provider.of<OrderList>(context, listen: false).cleanOrders();
+  // }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
