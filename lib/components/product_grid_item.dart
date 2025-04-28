@@ -101,7 +101,7 @@ class _ProductItemState extends State<ProductGridItem> {
                     style: TextButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 45, 172, 49),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero
+                        borderRadius: BorderRadius.circular(10)
                       ),
                       minimumSize: Size(140, 20)
                     ),
