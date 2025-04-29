@@ -85,66 +85,70 @@ class _OrderWidgetState extends State<OrderWidget> {
                 ),
               ),
         
-              AnimatedContainer(
-                duration: Duration(milliseconds: 300),
-                height: _expanded ? widget.order.products.length * 20 + 70 : 0,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 4
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ListView(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        children: widget.order.products.map(
-                            (product){
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    width: 220,
-                                    child: Text(
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      product.name,
-                                      
+              AnimatedOpacity(
+                duration: Duration(milliseconds: 400),
+                opacity: _expanded ? 1 : 0,
+                child: AnimatedContainer(
+                  height: _expanded ? widget.order.products.length * 20 + 70 : 0,
+                  duration: Duration(milliseconds: 400),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 4
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ListView(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          children: widget.order.products.map(
+                              (product){
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width: 220,
+                                      child: Text(
+                                        softWrap: true,
+                                        overflow: TextOverflow.ellipsis,
+                                        product.name,
+                                        
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    '${product.quantity}x R\$ ${product.price}'),
-                                ],
-                              );
-                            }
-                          ).toList()
-                      ),
-                        
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            alignment: Alignment.center,
-                            height: 30,
-                            width: 120,
-                            margin: EdgeInsets.only(bottom: 15),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: const Color.fromARGB(255, 105, 64, 175)
-                            ),
-                            child: Text(
-                              'Total: R\$ ${widget.order.total.toStringAsFixed(2)}',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w700
+                                    Text(
+                                      '${product.quantity}x R\$ ${product.price}'),
+                                  ],
+                                );
+                              }
+                            ).toList()
+                        ),
+                          
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              height: 30,
+                              width: 120,
+                              margin: EdgeInsets.only(bottom: 15),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: const Color.fromARGB(255, 105, 64, 175)
                               ),
-                              ),
-                          )
-                        ],
-                      ),
-                    ],
+                              child: Text(
+                                'Total: R\$ ${widget.order.total.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w700
+                                ),
+                                ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               )
