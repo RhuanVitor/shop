@@ -3,9 +3,9 @@
 Aplicativo de e-commerce desenvolvido em Flutter com funcionalidades completas.
 <br>
 <br>
-<img width=300 src="https://i.ibb.co/GQMP5hWG/IMG-20250716-123756.jpg">
-<img width=300 src="https://i.ibb.co/5gw495xQ/IMG-20250716-123743.jpg">
-<img width=300 src="https://i.ibb.co/xScVpXGT/IMG-20250716-123724.jpg">
+<img width=150 src="https://i.ibb.co/GQMP5hWG/IMG-20250716-123756.jpg">
+<img width=150 src="https://i.ibb.co/5gw495xQ/IMG-20250716-123743.jpg">
+<img width=150 src="https://i.ibb.co/xScVpXGT/IMG-20250716-123724.jpg">
 ## Funcionalidades:
 - Visualização de produtos
 - Detalhes do produto
