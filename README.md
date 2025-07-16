@@ -1,16 +1,32 @@
 # shop
 
-A new Flutter project.
+Aplicativo de e-commerce desenvolvido em Flutter com funcionalidades completas.
 
-## Getting Started
+## Funcionalidades:
+- Visualização de produtos
+- Detalhes do produto
+- Lista de desejos (wishlist)
+- Carrinho de compras
+- Realização e visualização de pedidos
+- Criação de novos produtos
+- Edição e exclusão de produtos existentes
 
-This project is a starting point for a Flutter application.
+## Tecnologias Utilizadas
+- Flutter (UI)
+- Provider (gerenciamento de estado)
+- Dart
+- Backend com Firebase
+  
+----
+## Como Executar
+### Pré-requisitos
+- Flutter instalado: flutter.dev/docs/get-started
+- Dispositivo/emulador Android ou iOS
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Instalação:
+```bash
+git clone https://github.com/RhuanVitor/shop
+cd shop
+flutter pub get
+flutter run
+```
